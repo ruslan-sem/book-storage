@@ -41,6 +41,7 @@ const div1 = document.createElement('div');
 const div2 = document.createElement('div');
 const title = document.createElement('h1');
 title.textContent = 'Library';
+title.classList = 'main-title';
 const ul = document.createElement('ul');
 ul.classList.add("list")
 const button = document.createElement('button');
@@ -86,7 +87,7 @@ function addBook() {
     div2.insertAdjacentHTML("beforeend",creatFormMarkup())
 }
 function creatFormMarkup() {
-    const addForm = `<form>
+    const addForm = `<form class="form">
       <label>Title:<input type="text" /></label>
       <label>Author:<input type="text" /></label>
       <label>Img:<input type="text" /></label>
