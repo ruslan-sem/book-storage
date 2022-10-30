@@ -69,7 +69,7 @@ function renderList() {
 renderList()
 function renderPreview(evt) {
     const serch = books.find((el) => el.title === evt.currentTarget.textContent)
-   div2.innerHTML=''
+    div2.innerHTML=''
     div2.insertAdjacentHTML("beforeend",createPreviewMarkup(serch))
 }
 
