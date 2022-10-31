@@ -92,7 +92,7 @@ function creatFormMarkup() {
       <label>Author:<input type="text" /></label>
       <label>Img:<input type="text" /></label>
       <label>Plot:<input type="text" /></label>
-      <button>Save</button>
+      <button class="btn-form">Save</button>
     </form>`
     return addForm
 }
