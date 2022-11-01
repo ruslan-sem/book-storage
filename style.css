@@ -73,7 +73,5 @@ img {
   display: flex;
   justify-content: center;
   margin-top: 30px;
-}
-.btn-form {
-  margin-left: 10px;
+  border-radius: 2px;
 }
