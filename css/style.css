@@ -29,6 +29,7 @@ img {
   list-style: none;
   padding: 0;
   margin: 0;
+  margin-bottom: 20px;
 }
 .elem {
   width: 60%;
@@ -62,7 +63,7 @@ img {
   padding: 10px;
   border-radius: 4px;
   cursor: pointer;
-
+  margin-top: 40px;
   margin: 0 auto;
 }
 .main-title {
@@ -72,7 +73,5 @@ img {
   display: flex;
   justify-content: center;
   margin-top: 30px;
-}
-.title {
-  cursor: pointer;
+  border-radius: 2px;
 }

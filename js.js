@@ -71,7 +71,7 @@ function renderList() {
 renderList()
 function renderPreview(evt) {
     const serch = books.find((el) => el.title === evt.currentTarget.textContent)
-    div2.innerHTML=''
+   div2.innerHTML=''
     div2.insertAdjacentHTML("beforeend",createPreviewMarkup(serch))
 }
 
@@ -94,7 +94,7 @@ function creatFormMarkup() {
       <label>Author:<input type="text" /></label>
       <label>Img:<input type="text" /></label>
       <label>Plot:<input type="text" /></label>
-      <button>Save</button>
+      <button class="btn-form">Save</button>
     </form>`
     return addForm
 }
