@@ -55,9 +55,7 @@ div2.classList.add("elem")
 
 listEl.append(div1, div2)
 div1.append(title, ul, button)
-/**
- * 
- */
+
 function renderList() {
  const bookList = books.map(({id,title}) => ` <li id=${id}>
       <p class="title">${title}</p>
