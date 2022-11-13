@@ -82,7 +82,29 @@ function renderList() {
 
   const btnDelete = document.querySelectorAll(".delete");
   btnDelete.forEach((el) => el.addEventListener("click", onBtnDelete));
+  const btnEdit = document.querySelectorAll(".edit");
+  btnEdit.forEach((el) => el.addEventListener("click", onBtnEdit));
 }
+// Edit
+function onBtnEdit(event) {
+  const books = JSON.parse(localStorage.getItem(STORAGE_KEY));
+  const id = event.target.parentNode.id;
+  const currentBook = books.find((book) => book.id === id);
+  div2.innerHTML = creatFormMarkup(currentBook);
+  fillObject(currentBook);
+  const form = document.querySelector(".form");
+  form.addEventListener("submit", submitHandler);
+  function submitHandler(event) {
+    event.preventDefault();
+    const books = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    const idx = books.findIndex((el) => el.id === id);
+    books[idx] = currentBook;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(books));
+    renderList();
+    div2.innerHTML = createPreviewMarkup(currentBook);
+  }
+}
+// Delete
 function onBtnDelete(evt) {
   const books = JSON.parse(localStorage.getItem(STORAGE_KEY));
   const id = evt.target.parentNode.id;
@@ -119,14 +141,40 @@ function createPreviewMarkup({ id, title, author, img, plot }) {
 }
 
 function addBook() {
-  div2.insertAdjacentHTML("beforeend", creatFormMarkup());
+  const newBook = {
+    id: `${Date.now()}`,
+    title: "",
+    author: "",
+    img: "",
+    plot: "",
+  };
+  div2.insertAdjacentHTML("beforeend", creatFormMarkup(newBook));
+  fillObject(newBook);
+  const form = document.querySelector(".form");
+  form.addEventListener("submit", submitHandler);
+  function submitHandler(event) {
+    event.preventDefault();
+    const books = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    books.push(newBook);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(books));
+    renderList();
+    div2.innerHTML = createPreviewMarkup(newBook);
+  }
 }
-function creatFormMarkup() {
+function fillObject(book) {
+  const inputs = document.querySelectorAll("input");
+  inputs.forEach((el) => el.addEventListener("change", changeHandler));
+  function changeHandler(event) {
+    book[event.target.name] = event.target.value;
+  }
+}
+
+function creatFormMarkup(book) {
   const addForm = `<form class="form">
-      <label>Title:<input type="text" /></label>
-      <label>Author:<input type="text" /></label>
-      <label>Img:<input type="text" /></label>
-      <label>Plot:<input type="text" /></label>
+      <label>Title:<input type="text" name="title" value="${book.title}"/></label>
+      <label>Author:<input type="text" name="author" value="${book.author}"/></label>
+      <label>Img:<input type="text" name="img" value="${book.img}"/></label>
+      <label>Plot:<input type="text" name="plot" value="${book.plot}"/></label>
       <button class="btn-form">Save</button>
     </form>`;
   return addForm;
