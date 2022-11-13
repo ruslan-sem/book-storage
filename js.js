@@ -35,6 +35,10 @@ const books = [{
     какими инструментами ему нужно пользоваться.`,
   }
 ]
+const STORAGE_KEY = 'books';
+
+localStorage.setItem(STORAGE_KEY, JSON.stringify(books));
+
 const listEl = document.querySelector("#root")
 
 const div1 = document.createElement('div');
@@ -57,17 +61,35 @@ listEl.append(div1, div2)
 div1.append(title, ul, button)
 
 function renderList() {
- const bookList = books.map(({id,title}) => ` <li id=${id}>
+  const books = JSON.parse(localStorage.getItem(STORAGE_KEY));
+  
+const bookList = books.map(({id,title}) => ` <li id=${id}>
       <p class="title">${title}</p>
       <button type="button" class="edit">Edit</button><button type="button" class="delete">Delete</button>
     </li>`).join('')
+    ul.innerHTML=''  
     ul.insertAdjacentHTML("beforeend", bookList);
     const bookName = document.querySelectorAll('.title');
     
-    bookName.forEach((el) => el.addEventListener('click',renderPreview))
+  bookName.forEach((el) => el.addEventListener('click', renderPreview))
+
+  const btnDelete = document.querySelectorAll('.delete');
+  btnDelete.forEach((el) => el.addEventListener('click', onBtnDelete))
 }
+function onBtnDelete(evt) {
+  const books = JSON.parse(localStorage.getItem(STORAGE_KEY));
+  const id = evt.target.parentNode.id
+
+  const currentBook = books.filter((book) => book.id !== id);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(currentBook));
+ 
+  renderList()
+  console.log(currentBook)
+}
+
 renderList()
 function renderPreview(evt) {
+  const books = JSON.parse(localStorage.getItem(STORAGE_KEY));
     const serch = books.find((el) => el.title === evt.currentTarget.textContent)
    div2.innerHTML=''
     div2.insertAdjacentHTML("beforeend",createPreviewMarkup(serch))
