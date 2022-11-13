@@ -97,7 +97,7 @@ function onBtnDelete(evt) {
     // console.log("!!!");
     div2.innerHTML = "";
   }
-  console.log(currentBook);
+  // console.log(currentBook);
 }
 
 renderList();
