@@ -1,4 +1,5 @@
-const books = [{
+const books = [
+  {
     id: "1",
     title: `Apple. Эволюция компьютера`,
     author: `Владимир Невзоров`,
@@ -10,7 +11,8 @@ const books = [{
     сопровождающиеся большим количеством оригинальных студийных фотографий.
     Книга предназначена для широкого круга читателей, интересующихся историей электроники. 
     Она также может послужить источником вдохновения для дизайнеров, маркетологов и предпринимателей.`,
-  },{
+  },
+  {
     id: "2",
     title: `Как объяснить ребенку информатику`,
     author: `Кэрол Вордерман`,
@@ -22,7 +24,8 @@ const books = [{
     от программирования до компьютерных атак. О том, как компьютеры функционируют, о современном программном 
     обеспечении, устройстве Интернета и цифровом этикете. Все концепты - от хакера до биткоина - 
     объясняются наглядно с помощью иллюстраций и схем.`,
-  },{
+  },
+  {
     id: "3",
     title: `Путь скрам-мастера. #ScrumMasterWay`,
     author: `Зузана Шохова`,
@@ -33,88 +36,98 @@ const books = [{
     Основываясь на 15-летнем опыте, Зузана Шохова рассказывает, какие роли и обязанности есть у скрам-мастера, 
     как ему решать повседневные задачи, какие компетенции нужны, чтобы стать выдающимся скрам-мастером, 
     какими инструментами ему нужно пользоваться.`,
-  }
-]
-const STORAGE_KEY = 'books';
+  },
+];
+const STORAGE_KEY = "books";
 
 localStorage.setItem(STORAGE_KEY, JSON.stringify(books));
 
-const listEl = document.querySelector("#root")
+const listEl = document.querySelector("#root");
 
-const div1 = document.createElement('div');
-const div2 = document.createElement('div');
-const title = document.createElement('h1');
-title.textContent = 'Library';
-title.classList = 'main-title';
-const ul = document.createElement('ul');
-ul.classList.add("list")
-const button = document.createElement('button');
-button.classList.add("btn")
-button.textContent = 'Add book';
+const div1 = document.createElement("div");
+const div2 = document.createElement("div");
+const title = document.createElement("h1");
+title.textContent = "Library";
+title.classList = "main-title";
+const ul = document.createElement("ul");
+ul.classList.add("list");
+const button = document.createElement("button");
+button.classList.add("btn");
+button.textContent = "Add book";
 
-button.addEventListener('click', addBook)
+button.addEventListener("click", addBook);
 
-div1.classList.add("item")
-div2.classList.add("elem")
+div1.classList.add("item");
+div2.classList.add("elem");
 
-listEl.append(div1, div2)
-div1.append(title, ul, button)
+listEl.append(div1, div2);
+div1.append(title, ul, button);
 
 function renderList() {
   const books = JSON.parse(localStorage.getItem(STORAGE_KEY));
-  
-const bookList = books.map(({id,title}) => ` <li id=${id}>
+
+  const bookList = books
+    .map(
+      ({ id, title }) => ` <li id=${id}>
       <p class="title">${title}</p>
       <button type="button" class="edit">Edit</button><button type="button" class="delete">Delete</button>
-    </li>`).join('')
-    ul.innerHTML=''  
-    ul.insertAdjacentHTML("beforeend", bookList);
-    const bookName = document.querySelectorAll('.title');
-    
-  bookName.forEach((el) => el.addEventListener('click', renderPreview))
+    </li>`
+    )
+    .join("");
+  ul.innerHTML = "";
+  ul.insertAdjacentHTML("beforeend", bookList);
+  const bookName = document.querySelectorAll(".title");
 
-  const btnDelete = document.querySelectorAll('.delete');
-  btnDelete.forEach((el) => el.addEventListener('click', onBtnDelete))
+  bookName.forEach((el) => el.addEventListener("click", renderPreview));
+
+  const btnDelete = document.querySelectorAll(".delete");
+  btnDelete.forEach((el) => el.addEventListener("click", onBtnDelete));
 }
 function onBtnDelete(evt) {
   const books = JSON.parse(localStorage.getItem(STORAGE_KEY));
-  const id = evt.target.parentNode.id
+  const id = evt.target.parentNode.id;
 
   const currentBook = books.filter((book) => book.id !== id);
   localStorage.setItem(STORAGE_KEY, JSON.stringify(currentBook));
- 
-  renderList()
-  console.log(currentBook)
+
+  renderList();
+  const bookItem = document.querySelector(".book");
+  // console.log(bookItem);
+  if (bookItem && bookItem.dataset.book === id) {
+    // console.log("!!!");
+    div2.innerHTML = "";
+  }
+  console.log(currentBook);
 }
 
-renderList()
+renderList();
 function renderPreview(evt) {
   const books = JSON.parse(localStorage.getItem(STORAGE_KEY));
-    const serch = books.find((el) => el.title === evt.currentTarget.textContent)
-   div2.innerHTML=''
-    div2.insertAdjacentHTML("beforeend",createPreviewMarkup(serch))
+  const serch = books.find((el) => el.title === evt.currentTarget.textContent);
+  div2.innerHTML = "";
+  div2.insertAdjacentHTML("beforeend", createPreviewMarkup(serch));
 }
 
-function createPreviewMarkup({id,title,author,img,plot}){
-    const currentBook = ` <div data-book=${id}>
+function createPreviewMarkup({ id, title, author, img, plot }) {
+  const currentBook = ` <div class="book" data-book="${id}">
     <h2>${title}</h2>
     <p>${author}</p>
     <img src="${img}" alt="${title}">
     <p>${plot}</p>
 </div>`;
-     return currentBook
+  return currentBook;
 }
 
 function addBook() {
-    div2.insertAdjacentHTML("beforeend",creatFormMarkup())
+  div2.insertAdjacentHTML("beforeend", creatFormMarkup());
 }
 function creatFormMarkup() {
-    const addForm = `<form class="form">
+  const addForm = `<form class="form">
       <label>Title:<input type="text" /></label>
       <label>Author:<input type="text" /></label>
       <label>Img:<input type="text" /></label>
       <label>Plot:<input type="text" /></label>
       <button class="btn-form">Save</button>
-    </form>`
-    return addForm
+    </form>`;
+  return addForm;
 }
